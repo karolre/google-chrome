@@ -18,6 +18,7 @@ export async function getOpenTabs(useOriginalFavicon: boolean): Promise<Tab[]> {
         set _window_index to 1
         repeat with w in windows
           set _tab_index to 1
+          set _w_id to 
           repeat with t in tabs of w
             set _title to get title of t
             set _url to get URL of t
@@ -107,8 +108,8 @@ export async function setActiveTab(tab: Tab): Promise<void> {
   await runAppleScript(`
     tell application "Google Chrome"
       activate
-      set index of window (${tab.windowsIndex} as number) to (${tab.windowsIndex} as number)
-      set active tab index of window (${tab.windowsIndex} as number) to (${tab.tabIndex} as number)
+      set index of window (${tab.windowsId} as number) to (${tab.windowsId} as number)
+      set active tab index of window (${tab.windowsId} as number) to (${tab.tabIndex} as number)
     end tell
     return true
   `);
@@ -118,9 +119,9 @@ export async function closeActiveTab(tab: Tab): Promise<void> {
   await runAppleScript(`
     tell application "Google Chrome"
       activate
-      set index of window (${tab.windowsIndex} as number) to (${tab.windowsIndex} as number)
-      set active tab index of window (${tab.windowsIndex} as number) to (${tab.tabIndex} as number)
-      close active tab of window (${tab.windowsIndex} as number)
+      set index of window (${tab.windowsId} as number) to (${tab.windowsId} as number)
+      set active tab index of window (${tab.windowsId} as number) to (${tab.tabIndex} as number)
+      close active tab of window (${tab.windowsId} as number)
     end tell
     return true
   `);
