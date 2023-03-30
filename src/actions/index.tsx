@@ -104,9 +104,10 @@ export async function openNewTab({
 export async function setActiveTab(tab: Tab): Promise<void> {
   await runAppleScript(`
     tell application "Google Chrome"
+      set _wnd to first window where id is ${tab.windowsId}
+      set index of _wnd to 1
+      set active tab index of _wnd to ${tab.tabIndex}
       activate
-      set index of window (${tab.windowsId} as number) to (${tab.windowsId} as number)
-      set active tab index of window (${tab.windowsId} as number) to (${tab.tabIndex} as number)
     end tell
     return true
   `);
